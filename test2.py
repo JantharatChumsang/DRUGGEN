@@ -536,7 +536,7 @@ if selected =="Predict new SMILES molecule":
 
                     st.write("could not augment", inp, "within", tries, "tries") 
 
-                def aug_list(inp_list, similarity=0.2, max_changes=20, max_tries=500):
+                def aug_list(inp_list, similarity=0.2, max_changes=50, max_tries=1000):
 
                     molecules = [augment_repeat(compound.replace('/', "").replace('@', "").replace('\\', "").replace('.', ""), similarity, max_changes, max_tries) for compound in inp_list]
                     molecules = list(set(molecules)) # remove duplicates
