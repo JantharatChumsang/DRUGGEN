@@ -153,7 +153,7 @@ if selected =="About us":
                 - Phage4 Approve: The compound has been approved in at least one country or area.""")
             
         st.write("##")
-        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
+        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five.</p>'
         st.markdown(Consequences_title, unsafe_allow_html=True)
         st.info(
                 """ 
