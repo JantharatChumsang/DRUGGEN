@@ -598,13 +598,23 @@ if selected =="Predict new SMILES molecule":
                 st.write(original) 
                 st.success(augmented)
                 
-                Drawori = draw_compound(original)
-                Drawogen = draw_compound(augmented)
+                def draw_compound(original):
+                    picori = Chem.MolFromSmiles(original)
+                    weight = Descriptors.MolWt(picori)
+                    return Draw.MolToImage(picori, size=(400,400))
+                picoriginal = draw_compound(original)
+                
+                def draw_compound(augmented):
+                    picgen = Chem.MolFromSmiles(augmented)
+                    weight = Descriptors.MolWt(picgen)
+                    return Draw.MolToImage(picgen, size=(400,400))
+                picgenerate = draw_compound(augmented)
+                
                 col1, col2 = st.columns(2)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
-                col1.image(Drawori)
+                col1.image(picoriginal)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
-                col2.image(Drawogen)
+                col2.image(picgenerate)
                 
                 gc.collect()           
         # except:
