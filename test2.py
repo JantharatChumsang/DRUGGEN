@@ -576,8 +576,7 @@ if selected =="Predict new SMILES molecule":
                             if test_molecule(augmented) and augmented != inp and rule_of_five(augmented): # make sure that the molecules are valid and drug-like
                                 s = similarity(inp, augmented) # calculate similarity between the original molecule and the augmented molecule
                                 if sim < s < 1: # make sure the molecule follows the similarity threshold
-#                                     st.write("augmented", inp, "-->", augmented, "with similarity", s)
-                                    st.code("Similarity between Original and New generate SMILES ", s)
+                                    st.success("augmented", inp, "-->", augmented, "Similarity between Original and New generate SMILES", s)
                                     return augmented
                         except:
                             continue
