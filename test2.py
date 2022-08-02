@@ -591,17 +591,19 @@ if selected =="Predict new SMILES molecule":
                     return molecules
 
                 gc.collect()
-
-                
+       
                 original = str(predict_nsmiles)
                 augmented = aug_list([original])[0]
                 st.write(original) 
                 st.code(augmented)
+                
+                Drawori = draw_compound(original)
+                Drawogen = draw_compound(augmented)
                 col1, col2 = st.columns(2)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
-                col1.image(draw_compound(original))
+                col1.image(Drawori)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
-                col2.image(draw_compound(augmented))
+                col2.image(Drawogen)
                 
                 gc.collect()           
         # except:
