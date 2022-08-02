@@ -376,8 +376,8 @@ if selected =="Check your SMILES molecule":
                 col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
                 col3.code(predictionprob55)
                 gc.collect()
-        except:
-             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
+         except:
+            st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
 
 #------------------------------------------------------------#
 if selected =="Predict new SMILES molecule":
