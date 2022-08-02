@@ -1,13 +1,9 @@
-# from email.policy import default
-# from tkinter import CENTER
-# import Tkinter as tk
 import streamlit as st 
 from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 import streamlit.components.v1 as stc
 
 import codecs
-# import pickle
 import joblib
 import imblearn
 import requests
@@ -23,17 +19,13 @@ import gc
 #------------------------------------------------#
 
 from rdkit.Chem import Descriptors, Lipinski,Draw
-# from rdkit.Chem import Draw
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Avalon import pyAvalonTools
 from rdkit import Chem, DataStructs
 from rdkit.Chem.Lipinski import RotatableBondSmarts
-# from rdkit.Chem.Draw import SimilarityMaps, IPythonConsole
-# from rdkit.Chem.Draw import rdMolDraw2D
 from chembl_webresource_client.new_client import new_client
-# from pikachu.general import draw_smiles
 from rdkit import rdBase
 rdBase.DisableLog('rdApp.error')
 
@@ -78,7 +70,6 @@ def load_lottiefile(filepath: str):
     with open (filepath,"r") as f:
         return json.load(f)
 
-
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:
@@ -92,23 +83,15 @@ def st_webpage(page_html,width=1370,height=1550):
     page =page_file.read()
     stc.html(page,width=width, height=height , scrolling = False)
 
-
 #### selected tab bar Home ####
 if selected =="Home":
     
     # ---- LOAD ASSETS ----
     st.write("##")
-
-    # lottie_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
-    # st_lottie(lottie_coding, height=450, key="coding")
+    
     with st.expander("Dataset"):
         df1 = pd.read_csv("databi.csv")
         st.write(df1)
-            
-
-    # with st.expander("Power BI"):
-    # t1,t2 = st.columns((0.15,1))
-    # t1.image('images/qrcode_app.powerbi.com.png', width = 175)
     st_webpage('powerBI.html')
       
 #-------------------------------------------------------#
@@ -117,11 +100,9 @@ if selected =="About us":
         st.title("About us 👥")
         Welcome_title = '<p style="text-align:left; font-family: Raleway, sans-serif; color:#06BBCC; font-size: 20px; ">  Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
         st.markdown(Welcome_title, unsafe_allow_html=True)
-        # t1, t2 = st.columns((0.08,1)) 
         st.image('images/chem.png', width = 90)
         st.write("website: https://www.ebi.ac.uk/chembl/")
 
-            
     with st.container():
         st.write("---")
         st.header("Goal of the projects")
@@ -170,7 +151,7 @@ if selected =="About us":
             st.write("##")
             st.write("##")
             
-            lottie2_coding = load_lottieurl("https://assets2.lottiefiles.com/packages/lf20_pk5mpw6j.json")
+            lottie2_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
             st_lottie(lottie2_coding, height=400,  key="coding")
             st.write("##")
         
@@ -188,10 +169,9 @@ if selected =="About us":
         link. https://github.com/TanushGoel/PharmaceuticAI
         ```
         """
-
         st.header(":mailbox: Get In Touch With Us!")
         contact_form = """
-        <form action="https://formsubmit.co/jantharat.june@mail.kmutt.ac.th" method="POST">
+        <form action="https://formsubmit.co/jantharat.c@thainhf.org" method="POST">
             <input type="hidden" name="_captcha" value="false">
             <input type="text" name="name" placeholder="Your name" required>
             <input type="email" name="email" placeholder="Your email" required>
@@ -200,8 +180,6 @@ if selected =="About us":
         </form>
         """
         st.markdown(contact_form, unsafe_allow_html=True)
-
-        # Use Local CSS File
         def local_css(file_name):
             with open(file_name) as f:
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
@@ -217,17 +195,14 @@ if selected =="About us":
 if selected =="Check your SMILES molecule":
     st.title(f"Check your SMILES molecule")
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    
-       
-    canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
-
+    st.write(""" This page you will know about 1.Predict pIC50 2.Approve/Non-Aprove 3.Active/Inactive from your SMILES mmolecule """)
+   
+    canonical_smiles = st.text_input("1.Plese enter your SMILES molecules string")  
     if st.button("Predict"):
          try:
             if canonical_smiles=="" :
                 st.write(f"Don't have SMILES molecules")
-            
             else:
-            
                 model3 = joblib.load('pIC50_predictor1.joblib')
                 model4 = joblib.load('active-inactive_predictor3.joblib')
                 model5 = joblib.load('BalancedRandomForestClassifier_model6.joblib')
@@ -242,10 +217,7 @@ if selected =="Check your SMILES molecule":
                 t1.write('')
                 t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
-                # mol = Chem.MolFromSmiles(canonical_smiles)
-                # col1.image(mol)
-                t1.image(picim)
-                
+                t1.image(picim)     
             
                 def analyze_compound(canonical_smiles):
                     m = Chem.MolFromSmiles(canonical_smiles)
@@ -277,9 +249,7 @@ if selected =="Check your SMILES molecule":
                     else:
                         str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
                         return str
-               
                 t2.warning(analyze_compound(canonical_smiles))
-            
 
                 def prediction_pIC50(canonical_smiles):
                     test_morgan_fps = []
@@ -289,7 +259,6 @@ if selected =="Check your SMILES molecule":
                     test_morgan_fps.append(temp)
                     prediction = model3.predict(test_morgan_fps)
                     return prediction
-
 
                 def get_h_bond_donors(mol):
                     idx = 0
@@ -316,10 +285,8 @@ if selected =="Check your SMILES molecule":
                 dfm  = pd.DataFrame([mdataf])
                 my_array = np.array(dfm)
 
-  
                 predict_pIC50 = prediction_pIC50(canonical_smiles)
                 prediction3 = ' '.join(map(str, predict_pIC50))
-               
                 
                 prediction4 = model4.predict(my_array)
                 prediction4_2 = ' '.join(map(str, prediction4))
@@ -330,9 +297,7 @@ if selected =="Check your SMILES molecule":
                 prediction5_2 = ' '.join(map(str, prediction5))
                 st.write(prediction5)
                 
-                # predictionprob44 = ' '.join(map(str, predictionprob4[:,1]))
                 predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
-
                 gc.collect()
 
                 with open('style.css') as f:
@@ -569,7 +534,6 @@ if selected =="Predict new SMILES molecule":
                     molecules = list(set(molecules)) # remove duplicates
                     molecules = [i for i in molecules if i] 
                     return molecules
-
                 gc.collect()
        
                 original = str(predict_nsmiles)
