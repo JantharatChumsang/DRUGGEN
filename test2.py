@@ -228,165 +228,165 @@ if selected =="Check your SMILES molecule":
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
     
        
-    # canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
+    canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
 
-    # if st.button("Predict"):
-    #     # try:
-    #         if canonical_smiles=="" :
-    #             st.write(f"Don't have SMILES molecules")
+    if st.button("Predict"):
+        # try:
+            if canonical_smiles=="" :
+                st.write(f"Don't have SMILES molecules")
             
-#             else:
+            else:
             
-#                 model3 = joblib.load('pIC50_predictor1.joblib')
-#                 model4 = joblib.load('active-inactive_predictor3.joblib')
-#                 model5 = joblib.load('BalancedRandomForestClassifier_model6.joblib')
+                model3 = joblib.load('pIC50_predictor1.joblib')
+                model4 = joblib.load('active-inactive_predictor3.joblib')
+                model5 = joblib.load('BalancedRandomForestClassifier_model6.joblib')
 
-#                 def draw_compound(canonical_smiles):
-#                     pic = Chem.MolFromSmiles(canonical_smiles)
-#                     weight = Descriptors.MolWt(pic)
-#                     return Draw.MolToImage(pic, size=(400,400))
-#                 picim = draw_compound(canonical_smiles)
+                def draw_compound(canonical_smiles):
+                    pic = Chem.MolFromSmiles(canonical_smiles)
+                    weight = Descriptors.MolWt(pic)
+                    return Draw.MolToImage(pic, size=(400,400))
+                picim = draw_compound(canonical_smiles)
 
-#                 t1, t2 = st.columns(2)
-#                 t1.write('')
-#                 t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-#                 t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
-#                 # mol = Chem.MolFromSmiles(canonical_smiles)
-#                 # col1.image(mol)
-#                 t1.image(picim)
+                t1, t2 = st.columns(2)
+                t1.write('')
+                t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
+                # mol = Chem.MolFromSmiles(canonical_smiles)
+                # col1.image(mol)
+                t1.image(picim)
                 
             
-#                 def analyze_compound(canonical_smiles):
-#                     m = Chem.MolFromSmiles(canonical_smiles)
-#                     t2.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
-#                     t2.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
-#                     t2.code(Descriptors.MolWt(m))
-#                     t2.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
-#                     t2.code(Descriptors.MolLogP(m))
-#                     t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
-#                     t2.code(Lipinski.NumHDonors(m))
-#                     t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
-#                     t2.code(Lipinski.NumHAcceptors(m))
+                def analyze_compound(canonical_smiles):
+                    m = Chem.MolFromSmiles(canonical_smiles)
+                    t2.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
+                    t2.code(Descriptors.MolWt(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
+                    t2.code(Descriptors.MolLogP(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
+                    t2.code(Lipinski.NumHDonors(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
+                    t2.code(Lipinski.NumHAcceptors(m))
 
-#                     if Descriptors.MolWt(m) <= np.array(500): 
-#                         if Descriptors.MolLogP(m) <= np.array(5):
-#                             if Lipinski.NumHDonors(m) <= np.array(5):
-#                                 if Lipinski.NumHAcceptors(m) <= np.array(10):
-#                                     str = "your smile is well ✔️"
-#                                     return str
-#                                 else:
-#                                     str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-#                                     return str
-#                             else:
-#                                 str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-#                                 return str
-#                         else:
-#                             str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-#                             return str
-#                     else:
-#                         str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-#                         return str
+                    if Descriptors.MolWt(m) <= np.array(500): 
+                        if Descriptors.MolLogP(m) <= np.array(5):
+                            if Lipinski.NumHDonors(m) <= np.array(5):
+                                if Lipinski.NumHAcceptors(m) <= np.array(10):
+                                    str = "your smile is well ✔️"
+                                    return str
+                                else:
+                                    str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                                    return str
+                            else:
+                                str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                                return str
+                        else:
+                            str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                            return str
+                    else:
+                        str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                        return str
                
-#                 t2.warning(analyze_compound(canonical_smiles))
+                t2.warning(analyze_compound(canonical_smiles))
             
 
-#                 def prediction_pIC50(canonical_smiles):
-#                     test_morgan_fps = []
-#                     mol = Chem.MolFromSmiles(canonical_smiles) 
-#                     info = {}
-#                     temp = AllChem.GetMorganFingerprintAsBitVect(mol,2,2048,bitInfo=info)
-#                     test_morgan_fps.append(temp)
-#                     prediction = model3.predict(test_morgan_fps)
-#                     return prediction
+                def prediction_pIC50(canonical_smiles):
+                    test_morgan_fps = []
+                    mol = Chem.MolFromSmiles(canonical_smiles) 
+                    info = {}
+                    temp = AllChem.GetMorganFingerprintAsBitVect(mol,2,2048,bitInfo=info)
+                    test_morgan_fps.append(temp)
+                    prediction = model3.predict(test_morgan_fps)
+                    return prediction
 
 
-#                 def get_h_bond_donors(mol):
-#                     idx = 0
-#                     donors = 0
-#                     while idx < len(mol)-1:
-#                         if mol[idx].lower() == "o" or mol[idx].lower() == "n":
-#                             if mol[idx+1].lower() == "h":
-#                                 donors+=1
-#                         idx+=1
-#                     return donors
-#                 def get_h_bond_acceptors(mol):
-#                     acceptors = 0
-#                     for i in mol:
-#                         if i.lower() == "n" or i.lower() == "o":
-#                             acceptors+=1
-#                     return acceptors
+                def get_h_bond_donors(mol):
+                    idx = 0
+                    donors = 0
+                    while idx < len(mol)-1:
+                        if mol[idx].lower() == "o" or mol[idx].lower() == "n":
+                            if mol[idx+1].lower() == "h":
+                                donors+=1
+                        idx+=1
+                    return donors
+                def get_h_bond_acceptors(mol):
+                    acceptors = 0
+                    for i in mol:
+                        if i.lower() == "n" or i.lower() == "o":
+                            acceptors+=1
+                    return acceptors
 
-#                 m = Chem.MolFromSmiles(canonical_smiles)
-#                 MW = Descriptors.MolWt(m)
-#                 NA = m.GetNumAtoms()
-#                 LP =  Descriptors.MolLogP(m)
-#                 SA =  Descriptors.TPSA(m)
-#                 mdataf = {'Molecule Weight': MW , 'ALogP': LP , 'HBD' : NA , 'HBA': SA}
-#                 dfm  = pd.DataFrame([mdataf])
-#                 my_array = np.array(dfm)
+                m = Chem.MolFromSmiles(canonical_smiles)
+                MW = Descriptors.MolWt(m)
+                NA = m.GetNumAtoms()
+                LP =  Descriptors.MolLogP(m)
+                SA =  Descriptors.TPSA(m)
+                mdataf = {'Molecule Weight': MW , 'ALogP': LP , 'HBD' : NA , 'HBA': SA}
+                dfm  = pd.DataFrame([mdataf])
+                my_array = np.array(dfm)
 
   
-#                 predict_pIC50 = prediction_pIC50(canonical_smiles)
-#                 prediction3 = ' '.join(map(str, predict_pIC50))
+                predict_pIC50 = prediction_pIC50(canonical_smiles)
+                prediction3 = ' '.join(map(str, predict_pIC50))
                
                 
-#                 prediction4 = model4.predict(my_array)
-#                 prediction4_2 = ' '.join(map(str, prediction4))
-#                 predictionprob4 = model4.predict_proba(my_array)
+                prediction4 = model4.predict(my_array)
+                prediction4_2 = ' '.join(map(str, prediction4))
+                predictionprob4 = model4.predict_proba(my_array)
                 
-#                 prediction5 = model5.predict(my_array)
-#                 predictionprob5 = model5.predict_proba(my_array)
-#                 prediction5_2 = ' '.join(map(str, prediction5))
-#                 st.write(prediction5)
+                prediction5 = model5.predict(my_array)
+                predictionprob5 = model5.predict_proba(my_array)
+                prediction5_2 = ' '.join(map(str, prediction5))
+                st.write(prediction5)
                 
-#                 # predictionprob44 = ' '.join(map(str, predictionprob4[:,1]))
-#                 predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
+                # predictionprob44 = ' '.join(map(str, predictionprob4[:,1]))
+                predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
 
-#                 gc.collect()
-
-
-
-#                 # predict = prediction_pIC50(canonical_smiles)               
-#                 # predict = ' '.join(map(str, predict ))    
-#                 # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
-#                 # a = predict.canonical_smiles    
-#                 # st.write(a)
-#                 # predict = model4.predict(my_array)                
-#                 # predict = ' '.join(map(str, predict))                
-#                 # predictionprob = model4.predict_proba(my_array)    
-#                 # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
-#                 # b = predict.canonical_smiles
-#                 # st.write(b)
-
-#                 # predict = model5.predict(my_array)                
-#                 # predictionprob = model5.predict_proba(my_array)                
-#                 # predict = ' '.join(map(str, predict))                
-#                 # st.write(prediction5)
+                gc.collect()
 
 
 
-#                 with open('style.css') as f:
-#                     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+                # predict = prediction_pIC50(canonical_smiles)               
+                # predict = ' '.join(map(str, predict ))    
+                # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
+                # a = predict.canonical_smiles    
+                # st.write(a)
+                # predict = model4.predict(my_array)                
+                # predict = ' '.join(map(str, predict))                
+                # predictionprob = model4.predict_proba(my_array)    
+                # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
+                # b = predict.canonical_smiles
+                # st.write(b)
 
-#                 col1, col2, col3 = st.columns(3)
-#                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-#                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
-#                 col1.code(prediction3) 
+                # predict = model5.predict(my_array)                
+                # predictionprob = model5.predict_proba(my_array)                
+                # predict = ' '.join(map(str, predict))                
+                # st.write(prediction5)
+
+
+
+                with open('style.css') as f:
+                    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+                col1, col2, col3 = st.columns(3)
+                col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
+                col1.code(prediction3) 
                 
-#                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-#                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
-#                 col2.code(prediction4_2)
-#                 # col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive Drug👇</p>', unsafe_allow_html=True)
-#                 # col2.code(predictionprob44)
+                col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
+                col2.code(prediction4_2)
+                # col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive Drug👇</p>', unsafe_allow_html=True)
+                # col2.code(predictionprob44)
 
-#                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-#                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
-#                 col3.code(prediction5_2)
-#                 col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
-#                 col3.code(predictionprob55)
-#                 gc.collect()
-        # except:
-        #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
+                col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
+                col3.code(prediction5_2)
+                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
+                col3.code(predictionprob55)
+                gc.collect()
+        except:
+             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
 
 #------------------------------------------------------------#
 if selected =="Predict new SMILES molecule":
@@ -605,7 +605,7 @@ if selected =="Predict new SMILES molecule":
                 original = str(predict_nsmiles)
                 augmented = aug_list([original])[0]
                 st.write(original) 
-                st.write(augmented) 
+                st.code(augmented) 
                 gc.collect()           
         # except:
         #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
