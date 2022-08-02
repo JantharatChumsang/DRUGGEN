@@ -150,13 +150,12 @@ if selected =="About us":
                 - Phage1 Non-approve: The compound has reached phase 1 clinical trials (safety studies, usually with healthy volunteers).
                 - Phage2 Non-approve: The compound has reached phase 2 clinical trials (preliminary studies of effectiveness).
                 - Phage3 Non-approve: The compound has reached phase 3 clinical trials (large studies of safety and effectiveness).
-                - Phage4 Approve: The compound has been approved in at least one country or area.
-             """)
+                - Phage4 Approve: The compound has been approved in at least one country or area.""")
             
-         st.write("##")
-         Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
-         st.markdown(Consequences_title, unsafe_allow_html=True)
-         st.info(
+        st.write("##")
+        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
+        st.markdown(Consequences_title, unsafe_allow_html=True)
+        st.info(
                 """ 
                 - Lipinski's rule states that, in general, an orally active drug has no more than one violation of the following criteria
                 - No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)
