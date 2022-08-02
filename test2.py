@@ -117,31 +117,46 @@ if selected =="About us":
         left_column, right_column = st.columns(2)
         with left_column:
             st.write("##")
-            Ideal_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Ideal.</p>'
+            Ideal_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Simplified Molecular Input Line Entry System(SMILES).</p>'
             st.markdown(Ideal_title, unsafe_allow_html=True)
             st.info(
                 """ 
-                - It is a process of drug discovery that can Commonly discovered by predicting protein target molecules on web applications
-                  And the drug molecules obtained from the prediction can be further studied before producing or developing drugs in the future.
+                - SMILES (Simplified Molecular Input Line Entry System) is a chemical notation that allows a user to represent a chemical structure in a way that can be used by the computer. SMILES is an easily learned and flexible notation.
              """)
             st.write("##")
-            Reality_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size:20px; "> 🧬 Reality.</p>'
+            Reality_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size:20px; "> 🧬 Active/Inactive.</p>'
             st.markdown(Reality_title, unsafe_allow_html=True)
             st.info(
                 """ 
-                - In reality, the field of medicine is more complex than we think, starting with observing, experimenting and researching the properties of the natural surroundings. 
-                  development of medicinal substances with the synthesis of chemical compounds or compounds that imitate important substances in nature, which the discovery and manufacture of each drug knowledge 
-                  required in many disciplines Important substances that have medicinal properties and are available for sale. must be extracted synthesis or compound analysis number of more than ten thousand species 
-                  To be selected to study the potency and toxicity of the drug in vitro.
+                - The key difference between active and inactive ingredients is that active ingredients are the components in a drug that have a therapeutic effect on the body, whereas inactive ingredients are the components in a drug that have non-medicinal importance.
+                  Sometime inactive ingredients are added during the manufacturing process of pharmaceutical products.
             """)
 
             st.write("##")
-            Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Consequences.</p>'
+            Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
             st.markdown(Consequences_title, unsafe_allow_html=True)
             st.info(
                 """ 
-                - To discover and produce the desired drug If there is no application or technology to help at all It takes an average period of up to 15 years and costs a minimum of approximately $800 million. 
-                  Therefore, each discovery of a drug takes a long time and a large budget. The group therefore chose to discover new drugs. together with a machine learning model to help mitigate this problem for future drug development circles.
+                - Phage0 Non-approve: The compound has not yet reached phase I clinical trials(preclinical/research compound).
+                - Phage1 Non-approve: The compound has reached phase 1 clinical trials (safety studies, usually with healthy volunteers).
+                - Phage2 Non-approve: The compound has reached phase 2 clinical trials (preliminary studies of effectiveness).
+                - Phage3 Non-approve: The compound has reached phase 3 clinical trials (large studies of safety and effectiveness).
+                - Phage4 Approve: The compound has been approved in at least one country or area.
+             """)
+            
+            st.write("##")
+            Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
+            st.markdown(Consequences_title, unsafe_allow_html=True)
+            st.info(
+                """ 
+                - Lipinski's rule states that, in general, an orally active drug has no more than one violation of the following criteria
+                - No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)
+                - No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)
+                - A molecular mass less than 500 daltons
+                - An octanol-water partition coefficient(log P) that does not exceed 5
+
+                Why it is called Rule of 5?
+                Christopher Lipinski from Pfizer found a simple mnemonic which he called the "Rule of 5" because the parameter cut-off values all contained 5's. Numerically there actually are only four rules. 
              """)
             st.write("##")
         with right_column:
