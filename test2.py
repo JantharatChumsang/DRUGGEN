@@ -335,27 +335,6 @@ if selected =="Check your SMILES molecule":
 
                 gc.collect()
 
-
-
-                # predict = prediction_pIC50(canonical_smiles)               
-                # predict = ' '.join(map(str, predict ))    
-                # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
-                # a = predict.canonical_smiles    
-                # st.write(a)
-                # predict = model4.predict(my_array)                
-                # predict = ' '.join(map(str, predict))                
-                # predictionprob = model4.predict_proba(my_array)    
-                # #(ตรงนี้ save ค่าที่ต้องใช้เก็บใน varableก่อน เพื่อไว้เรียกใช้หรือไว้โชว์ เช่น
-                # b = predict.canonical_smiles
-                # st.write(b)
-
-                # predict = model5.predict(my_array)                
-                # predictionprob = model5.predict_proba(my_array)                
-                # predict = ' '.join(map(str, predict))                
-                # st.write(prediction5)
-
-
-
                 with open('style.css') as f:
                     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
@@ -384,8 +363,9 @@ if selected =="Predict new SMILES molecule":
     Welcome_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
     st.markdown(Welcome_title, unsafe_allow_html=True)
     st.title(f"Check your SMILES molecule")
-    st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    predict_nsmiles = st.text_input("1.Enter your SMILES molecules string")
+    st.write(""" Generation your old SMILES molecules.""")
+    st.warning("Use timing process 2-10 minute Please wait!! 🧬 ")
+    predict_nsmiles = st.text_input("Enter your SMILES molecules string Prediction")
     gc.collect()
 
     if st.button("Predict"):
