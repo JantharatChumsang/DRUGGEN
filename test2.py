@@ -302,13 +302,10 @@ if selected =="Check your SMILES molecule":
                 prediction3 = ' '.join(map(str, predict_pIC50))
                 
                 prediction4 = model4.predict(my_array)
-                prediction4_2 = ' '.join(map(str, prediction4))
                 predictionprob4 = model4.predict_proba(my_array)
                 
                 prediction5 = model5.predict(my_array)
-                predictionprob5 = model5.predict_proba(my_array)
                 prediction5_2 = ' '.join(map(str, prediction5))
-#                 st.write(prediction5)
                 
                 predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
                 gc.collect()
@@ -324,14 +321,10 @@ if selected =="Check your SMILES molecule":
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
                 col2.code(prediction4_2)
-                # col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive Drug👇</p>', unsafe_allow_html=True)
-                # col2.code(predictionprob44)
 
                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
                 col3.code(prediction5_2)
-                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
-                col3.code(predictionprob55)
                 gc.collect()
          except:
             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
