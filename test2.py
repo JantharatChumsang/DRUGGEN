@@ -132,10 +132,19 @@ if selected =="About us":
                   Sometime inactive ingredients are added during the manufacturing process of pharmaceutical products.
             """)
 
+        with right_column:
             st.write("##")
-            Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
-            st.markdown(Consequences_title, unsafe_allow_html=True)
-            st.info(
+            st.write("##")
+            st.write("##")
+            st.write("##")
+            st.write("##")
+            
+            lottie2_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
+            st_lottie(lottie2_coding, height=400,  key="coding")
+        st.write("##")
+        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
+        st.markdown(Consequences_title, unsafe_allow_html=True)
+        st.info(
                 """ 
                 - Phage0 Non-approve: The compound has not yet reached phase I clinical trials(preclinical/research compound).
                 - Phage1 Non-approve: The compound has reached phase 1 clinical trials (safety studies, usually with healthy volunteers).
@@ -144,10 +153,10 @@ if selected =="About us":
                 - Phage4 Approve: The compound has been approved in at least one country or area.
              """)
             
-            st.write("##")
-            Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
-            st.markdown(Consequences_title, unsafe_allow_html=True)
-            st.info(
+         st.write("##")
+         Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five .</p>'
+         st.markdown(Consequences_title, unsafe_allow_html=True)
+         st.info(
                 """ 
                 - Lipinski's rule states that, in general, an orally active drug has no more than one violation of the following criteria
                 - No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)
@@ -158,17 +167,7 @@ if selected =="About us":
                 Why it is called Rule of 5?
                 Christopher Lipinski from Pfizer found a simple mnemonic which he called the "Rule of 5" because the parameter cut-off values all contained 5's. Numerically there actually are only four rules. 
              """)
-            st.write("##")
-        with right_column:
-            st.write("##")
-            st.write("##")
-            st.write("##")
-            st.write("##")
-            st.write("##")
-            
-            lottie2_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
-            st_lottie(lottie2_coding, height=400,  key="coding")
-            st.write("##")
+        st.write("##")
         
         st.header("Citation")
 
