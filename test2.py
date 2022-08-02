@@ -362,7 +362,7 @@ if selected =="Check your SMILES molecule":
 if selected =="Predict new SMILES molecule":
     Welcome_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
     st.markdown(Welcome_title, unsafe_allow_html=True)
-    st.title(f"Check your SMILES molecule")
+    st.title(f"Predict new SMILES molecule")
     st.write(""" Generation your old SMILES molecules.""")
     st.warning("Use timing process 2-10 minute Please wait!! 🧬 ")
     predict_nsmiles = st.text_input("Enter your SMILES molecules string Prediction")
