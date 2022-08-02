@@ -316,14 +316,17 @@ if selected =="Check your SMILES molecule":
                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
                 col1.code(prediction3) 
+                col1.code('<p class="font-family: Poppins, sans-serif;">Accuracy: 0.789</p>', unsafe_allow_html=True)
                 
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
                 col2.code(prediction4_2)
+                col2.code('<p class="font-family: Poppins, sans-serif;">Accuracy: 0.808</p>', unsafe_allow_html=True)
 
                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
                 col3.code(prediction5_2)
+                col3.code('<p class="font-family: Poppins, sans-serif;">Accuracy: 0.669</p>', unsafe_allow_html=True)
                 gc.collect()
          except:
             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
