@@ -302,12 +302,11 @@ if selected =="Check your SMILES molecule":
                 prediction3 = ' '.join(map(str, predict_pIC50))
                 
                 prediction4 = model4.predict(my_array)
-                predictionprob4 = model4.predict_proba(my_array)
+                prediction4_2 = ' '.join(map(str, prediction4))
                 
                 prediction5 = model5.predict(my_array)
                 prediction5_2 = ' '.join(map(str, prediction5))
-                
-                predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
+               
                 gc.collect()
 
                 with open('style.css') as f:
