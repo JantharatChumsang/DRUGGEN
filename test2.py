@@ -141,7 +141,7 @@ if selected =="About us":
             
             lottie2_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
             st_lottie(lottie2_coding, height=400,  key="coding")
-        st.write("##")
+        
         Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
         st.markdown(Consequences_title, unsafe_allow_html=True)
         st.info(
@@ -164,7 +164,7 @@ if selected =="About us":
                 - An octanol-water partition coefficient(log P) that does not exceed 5
 
                 Why it is called Rule of 5?
-                Christopher Lipinski from Pfizer found a simple mnemonic which he called the "Rule of 5" because the parameter cut-off values all contained 5's. Numerically there actually are only four rules. 
+                - Christopher Lipinski from Pfizer found a simple mnemonic which he called the "Rule of 5" because the parameter cut-off values all contained 5's. Numerically there actually are only four rules. 
              """)
         st.write("##")
         
