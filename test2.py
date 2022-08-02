@@ -20,10 +20,6 @@ import pandas as pd
 import numpy as np
 import gc
 
-# import seaborn as sn
-# import matplotlib.pyplot as plt
-# from statistics import mean, stdev
-
 #------------------------------------------------#
 
 from rdkit.Chem import Descriptors, Lipinski,Draw
@@ -41,11 +37,6 @@ from chembl_webresource_client.new_client import new_client
 from rdkit import rdBase
 rdBase.DisableLog('rdApp.error')
 
-# import os
-# from os import path
-# import zipfile
-# import glob
-# import random
 import keras
 from keras.utils import np_utils
 from keras.models import load_model
@@ -231,7 +222,7 @@ if selected =="Check your SMILES molecule":
     canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
 
     if st.button("Predict"):
-        # try:
+         try:
             if canonical_smiles=="" :
                 st.write(f"Don't have SMILES molecules")
             
@@ -398,7 +389,7 @@ if selected =="Predict new SMILES molecule":
     gc.collect()
 
     if st.button("Predict"):
-        # try:
+#          try:
             if predict_nsmiles=="" :
                 st.write(f"Don't have SMILES molecules")
                 gc.collect()
@@ -605,7 +596,13 @@ if selected =="Predict new SMILES molecule":
                 original = str(predict_nsmiles)
                 augmented = aug_list([original])[0]
                 st.write(original) 
-                st.code(augmented) 
+                st.code(augmented)
+                col1, col2 = st.columns(2)
+                col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
+                col1.image(draw_compound(original))
+                col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
+                col2.image(draw_compound(augmented))
+                
                 gc.collect()           
         # except:
         #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
