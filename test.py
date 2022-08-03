@@ -12,7 +12,7 @@ import joblib
 import imblearn
 import requests
 import random
-
+import gc
 #----------------------------------------------#
 
 import json
