@@ -342,7 +342,7 @@ if selected =="Predict new SMILES molecule":
     gc.collect()
 
     if st.button("Predict"):
-#          try:
+          try:
             if predict_nsmiles=="" :
                 st.write(f"Don't have SMILES molecules")
                 gc.collect()
@@ -568,7 +568,7 @@ if selected =="Predict new SMILES molecule":
                 col2.image(picgenerate)
                 
                 gc.collect()           
-        # except:
-        #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
+         except:
+              st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
 
 
