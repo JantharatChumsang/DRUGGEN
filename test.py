@@ -86,7 +86,7 @@ t2.markdown(web2_title, unsafe_allow_html=True)
 ### tab bar ####
 selected = option_menu(
     menu_title=None, 
-    options=["Home", "About us","Check your SMILES molecule", "Predict new SMILES molecule"], 
+    options=["Home", "About us", "Predict new SMILES molecule"], 
     icons=["house","book","check2-all","search"],
     menu_icon="cast",
     default_index=0,
@@ -236,85 +236,83 @@ if selected =="About us":
         t1,t2 = st.columns((0.05,1))
         t1.image('images/sodsri-logo.png', width = 45)
         t2.write("If you have any feedback, please reach out to us at https://www.facebook.com/thaissf.org/, https://thaissf.org/")
-        
-#---------------------------------------------------------#
 
-if selected =="Check your SMILES molecule":
-    st.title(f"Check your SMILES molecule")
-    st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    
-       
-    canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
+
+#------------------------------------------------------------#
+if selected =="Predict new SMILES molecule":
+    Welcome_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
+    st.markdown(Welcome_title, unsafe_allow_html=True)
+    st.title(f"Predict new SMILES molecule")
+    st.write(""" Generation your old SMILES molecules.""")
+    st.warning("Use timing process 2-10 minute Please wait!! 🧬 ")
+    predict_nsmiles = st.text_input("Enter your SMILES molecules string Prediction")
+    gc.collect()
 
     if st.button("Predict"):
         try:
-            if canonical_smiles=="" :
+            if predict_nsmiles=="" :
                 st.write(f"Don't have SMILES molecules")
-            
+                gc.collect()
             else:
-            
-                model3 = joblib.load('pIC50_predictor1.joblib')
-                model4 = joblib.load('active-inactive_predictor3.joblib')
-                model5 = joblib.load('BalancedRandomForestClassifier_model6.joblib')
+                df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
+                model = load_model('tmpee2tkney.hdf5')
+                original = predict_nsmiles
 
-                def draw_compound(canonical_smiles):
-                    pic = Chem.MolFromSmiles(canonical_smiles)
-                    weight = Descriptors.MolWt(pic)
-                    return Draw.MolToImage(pic, size=(400,400))
-                picim = draw_compound(canonical_smiles)
+                # double letters for one element turned into single letters that are not in the dataset
+                double_to_single = {'Si':'q', 'Se':'w', 'Cn':'t', 'Sc':'y', 'Cl':'u', 'Sn':'z', 'Br':'x'} 
+                single_to_double = {'q':'Si', 'w':'Se', 't':'Cn', 'y':'Sc', 'u':'Cl', 'z':'Sn', 'x':'Br'}
+                elements_with_double_letters = list(double_to_single)
 
-                t1, t2 = st.columns(2)
-                t1.write('')
-                t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-                t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
-                # mol = Chem.MolFromSmiles(canonical_smiles)
-                # col1.image(mol)
-                t1.image(picim)
+                element_set = ['C', '(', '=', 'O', ')','/','\\','.','@', 'N', 'c', '1', '$', '2', '3', '4', '#', 'n', 'F', 'u', '-', '[', 'H', ']', 's', 'o', 'S', 't', '5', '6', '+', 'P', 'I', 'x', 'y', 'q', 'B', 'w', '7', '8', 'e', '9', 'b', 'p', '%', '0', 'z','a']
+                n_vocab = len(element_set)
+                element_to_int = dict(zip(element_set, range(0, n_vocab)))
+                int_to_element = {v: k for k, v in element_to_int.items()}
+                sequence_length = 100 
+                gc.collect() 
+
+                filey = open('pharmaceuticAI_all_compounds.smiles')
+                structures = [line[:-1] for line in filey]
                 
-            
-                def analyze_compound(canonical_smiles):
-                    m = Chem.MolFromSmiles(canonical_smiles)
-                    t2.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
-                    t2.code(Descriptors.MolWt(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
-                    t2.code(Descriptors.MolLogP(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
-                    t2.code(Lipinski.NumHDonors(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
-                    t2.code(Lipinski.NumHAcceptors(m))
+                data = structures 
+                del structures
 
-                    if Descriptors.MolWt(m) <= np.array(500): 
-                        if Descriptors.MolLogP(m) <= np.array(5):
-                            if Lipinski.NumHDonors(m) <= np.array(5):
-                                if Lipinski.NumHAcceptors(m) <= np.array(10):
-                                    str = "your smile is well ✔️"
-                                    return str
+                def gen_structs(data):
+
+                    structs = []
+                    for structure in data:
+                        i = 0
+                        while i < len(structure):
+                            try:
+                                if structure[i] + structure[i+1] in elements_with_double_letters:
+                                    structs.append(double_to_single[structure[i] + structure[i+1]])
+                                    i+=2
                                 else:
-                                    str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-                                    return str
-                            else:
-                                str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-                                return str
-                        else:
-                            str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-                            return str
-                    else:
-                        str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
-                        return str
-               
-                t2.warning(analyze_compound(canonical_smiles))
-            
+                                    structs.append(structure[i])
+                                    i+=1
+                            except:
+                                    structs.append(structure[i])
+                                    i+=1
+                        structs.append("$") # end token
 
-                def prediction_pIC50(canonical_smiles):
-                    test_morgan_fps = []
-                    mol = Chem.MolFromSmiles(canonical_smiles) 
-                    info = {}
-                    temp = AllChem.GetMorganFingerprintAsBitVect(mol,2,2048,bitInfo=info)
-                    test_morgan_fps.append(temp)
-                    prediction = model3.predict(test_morgan_fps)
-                    return prediction
+                    return structs
 
+                def gen_data(structs):
+
+                    network_inp = []
+
+                    # create input sequences
+                    for i in range(0, len(structs) - sequence_length):
+                        sequence_in = structs[i:i + sequence_length]
+                        network_inp.append([element_to_int[char] for char in sequence_in])
+                        
+                    n_patterns = len(network_inp)
+
+                    # reshape the input into a format compatible with CuDNNLSTM layers
+                    network_inp = np.reshape(network_inp, (n_patterns, sequence_length))
+
+                    return network_inp
+
+                network_input = gen_data(gen_structs(data))
 
                 def get_h_bond_donors(mol):
                     idx = 0
@@ -325,281 +323,158 @@ if selected =="Check your SMILES molecule":
                                 donors+=1
                         idx+=1
                     return donors
+
                 def get_h_bond_acceptors(mol):
                     acceptors = 0
                     for i in mol:
                         if i.lower() == "n" or i.lower() == "o":
                             acceptors+=1
                     return acceptors
-
-                m = Chem.MolFromSmiles(canonical_smiles)
-                MW = Descriptors.MolWt(m)
-                NA = m.GetNumAtoms()
-                LP =  Descriptors.MolLogP(m)
-                SA =  Descriptors.TPSA(m)
-                mdataf = {'Molecule Weight': MW , 'ALogP': LP , 'HBD' : NA , 'HBA': SA}
-                dfm  = pd.DataFrame([mdataf])
-                my_array = np.array(dfm)
-
-  
-                predict_pIC50 = prediction_pIC50(canonical_smiles)
-                prediction3 = ' '.join(map(str, predict_pIC50))
-               
                 
-                prediction4 = model4.predict(my_array)
-                prediction4_2 = ' '.join(map(str, prediction4))
-                predictionprob4 = model4.predict_proba(my_array)
+                # Lipinski's “Rule of Five” - Constraints in order to maintain drug-like character within the compounds
+                def rule_of_five(molecule):
+                    m = Chem.MolFromSmiles(molecule)
+                    if get_h_bond_donors(molecule) <= 5 and get_h_bond_acceptors(molecule) <= 10 and Descriptors.MolWt(m) <= 500 and Descriptors.MolLogP(m) <= 5:
+                        return True
+                    else:
+                        return False
+
+                def similarity(molecule1, molecule2): # fraction of fingerprints the set of two molecules have in common
+                    m1 = Chem.MolFromSmiles(molecule1)
+                    bi1 = {}
+                    fp1 = AllChem.GetMorganFingerprintAsBitVect(m1, radius=2, nBits=2048, bitInfo=bi1)
+                    fp1_bits1 = fp1.GetOnBits()
+
+                    m2 = Chem.MolFromSmiles(molecule2)
+                    bi2 = {}
+                    fp2 = AllChem.GetMorganFingerprintAsBitVect(m2, radius=2, nBits=2048, bitInfo=bi2)
+                    fp2_bits2 = fp2.GetOnBits()
+
+                    common = set(fp1_bits1) & set(fp2_bits2)
+                    combined = set(fp1_bits1) | set(fp2_bits2)
+
+                    return len(common)/len(combined) # recreation of DataStructs.TanimotoSimilarity
+
+                def test_molecule(molecule):
+                    if molecule == None or len(molecule) <= 3:
+                        return False
+                    mol = Chem.MolFromSmiles(molecule)
+                    if mol == None:
+                        return False
+                    else:
+                        try:
+                            Draw.MolToImage(mol) # if molecule is not drawable, the molecule is not valid
+                            return True
+                        except:
+                            return False
                 
-                prediction5 = model5.predict(my_array)
-                predictionprob5 = model5.predict_proba(my_array)
-                prediction5_2 = ' '.join(map(str, prediction5))
-                # st.write(prediction5)
-                
-                # predictionprob44 = ' '.join(map(str, predictionprob4[:,1]))
-                predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
+                def complete(inp): # helper method for augment - returns a prediction in place of the removed element
 
-                with open('style.css') as f:
-                    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+                    for word, initial in double_to_single.items(): 
+                        inp = inp.replace(word, initial) # replace double-letter elements to single-letter for model input
 
-                col1, col2, col3 = st.columns(3)
-                col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-                col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
-                col1.code(prediction3) 
-                
-                col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-                col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
-                col2.code(prediction4_2)
-                # col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive Drug👇</p>', unsafe_allow_html=True)
-                # col2.code(predictionprob44)
+                    net_inp = []
 
-                col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-                col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
-                col3.code(prediction5_2)
-                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
-                col3.code(predictionprob55)
-        except:
-             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
+                    for i in range(0, len(inp)):
+                        seq_in = inp[i]
+                        net_inp.append([element_to_int[char] for char in seq_in])
 
-#------------------------------------------------------------#
-# if selected =="Predict new SMILES molecule":
-#     Welcome_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
-#     st.markdown(Welcome_title, unsafe_allow_html=True)
-#     st.title(f"Check your SMILES molecule")
-#     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-#     predict_nsmiles = st.text_input("1.Enter your SMILES molecules string")
-    
+                    found = False
+                    while not found: # find sequence with the end token "$" at the end
+                        start = np.random.randint(0, len(network_input)-1)
+                        pattern = network_input[start]
+                        if int_to_element[np.round(pattern[-1])] == "$":
+                            found = True
 
-#     if st.button("Predict"):
-#         # try:
-#             if predict_nsmiles=="" :
-#                 st.write(f"Don't have SMILES molecules")
-            
-#             else:
-#                 df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
-#                 model = load_model('model_final.h5')
-#                 original = predict_nsmiles
+                    net_in = []
+                    for i in pattern[len(inp):sequence_length]:
+                        net_in.append(i)
+                    for j in net_inp:
+                        net_in.append(j[0])
 
-#                 # double letters for one element turned into single letters that are not in the dataset
-#                 double_to_single = {'Si':'q', 'Se':'w', 'Cn':'t', 'Sc':'y', 'Cl':'u', 'Sn':'z', 'Br':'x'} 
-#                 single_to_double = {'q':'Si', 'w':'Se', 't':'Cn', 'y':'Sc', 'u':'Cl', 'z':'Sn', 'x':'Br'}
-#                 elements_with_double_letters = list(double_to_single)
+                    net_in = np.reshape(net_in, (1, sequence_length))
 
-#                 element_set = ['C', '(', '=', 'O', ')','/','\\','.','@', 'N', 'c', '1', '$', '2', '3', '4', '#', 'n', 'F', 'u', '-', '[', 'H', ']', 's', 'o', 'S', 't', '5', '6', '+', 'P', 'I', 'x', 'y', 'q', 'B', 'w', '7', '8', 'e', '9', 'b', 'p', '%', '0', 'z','a']
-#                 n_vocab = len(element_set)
-#                 element_to_int = dict(zip(element_set, range(0, n_vocab)))
-#                 int_to_element = {v: k for k, v in element_to_int.items()}
-#                 sequence_length = 100 
+                    prediction = model.predict(net_in, verbose=0) # make prediction
+                    index = np.argmax(prediction)
+                    result = int_to_element[index]
 
-#                 filey = open('pharmaceuticAI_all_compounds.smiles')
-#                 structures = [line[:-1] for line in filey]
-                
-#                 data = structures 
-#                 del structures
-
-#                 def gen_structs(data):
-
-#                     structs = []
-#                     for structure in data:
-#                         i = 0
-#                         while i < len(structure):
-#                             try:
-#                                 if structure[i] + structure[i+1] in elements_with_double_letters:
-#                                     structs.append(double_to_single[structure[i] + structure[i+1]])
-#                                     i+=2
-#                                 else:
-#                                     structs.append(structure[i])
-#                                     i+=1
-#                             except:
-#                                     structs.append(structure[i])
-#                                     i+=1
-#                         structs.append("$") # end token
-
-#                     return structs
-
-#                 def gen_data(structs):
-
-#                     network_inp = []
-
-#                     # create input sequences
-#                     for i in range(0, len(structs) - sequence_length):
-#                         sequence_in = structs[i:i + sequence_length]
-#                         network_inp.append([element_to_int[char] for char in sequence_in])
-                        
-#                     n_patterns = len(network_inp)
-
-#                     # reshape the input into a format compatible with CuDNNLSTM layers
-#                     network_inp = np.reshape(network_inp, (n_patterns, sequence_length))
-
-#                     return network_inp
-
-#                 network_input = gen_data(gen_structs(data))
-
-#                 def get_h_bond_donors(mol):
-#                     idx = 0
-#                     donors = 0
-#                     while idx < len(mol)-1:
-#                         if mol[idx].lower() == "o" or mol[idx].lower() == "n":
-#                             if mol[idx+1].lower() == "h":
-#                                 donors+=1
-#                         idx+=1
-#                     return donors
-
-#                 def get_h_bond_acceptors(mol):
-#                     acceptors = 0
-#                     for i in mol:
-#                         if i.lower() == "n" or i.lower() == "o":
-#                             acceptors+=1
-#                     return acceptors
-                
-#                 # Lipinski's “Rule of Five” - Constraints in order to maintain drug-like character within the compounds
-#                 def rule_of_five(molecule):
-#                     m = Chem.MolFromSmiles(molecule)
-#                     if get_h_bond_donors(molecule) <= 5 and get_h_bond_acceptors(molecule) <= 10 and Descriptors.MolWt(m) <= 500 and Descriptors.MolLogP(m) <= 5:
-#                         return True
-#                     else:
-#                         return False
-
-#                 def similarity(molecule1, molecule2): # fraction of fingerprints the set of two molecules have in common
-#                     m1 = Chem.MolFromSmiles(molecule1)
-#                     bi1 = {}
-#                     fp1 = AllChem.GetMorganFingerprintAsBitVect(m1, radius=2, nBits=2048, bitInfo=bi1)
-#                     fp1_bits1 = fp1.GetOnBits()
-
-#                     m2 = Chem.MolFromSmiles(molecule2)
-#                     bi2 = {}
-#                     fp2 = AllChem.GetMorganFingerprintAsBitVect(m2, radius=2, nBits=2048, bitInfo=bi2)
-#                     fp2_bits2 = fp2.GetOnBits()
-
-#                     common = set(fp1_bits1) & set(fp2_bits2)
-#                     combined = set(fp1_bits1) | set(fp2_bits2)
-
-#                     return len(common)/len(combined) # recreation of DataStructs.TanimotoSimilarity
-
-#                 def test_molecule(molecule):
-#                     if molecule == None or len(molecule) <= 3:
-#                         return False
-#                     mol = Chem.MolFromSmiles(molecule)
-#                     if mol == None:
-#                         return False
-#                     else:
-#                         try:
-#                             Draw.MolToImage(mol) # if molecule is not drawable, the molecule is not valid
-#                             return True
-#                         except:
-#                             return False
-                
-#                 def complete(inp): # helper method for augment - returns a prediction in place of the removed element
-
-#                     for word, initial in double_to_single.items(): 
-#                         inp = inp.replace(word, initial) # replace double-letter elements to single-letter for model input
-
-#                     net_inp = []
-
-#                     for i in range(0, len(inp)):
-#                         seq_in = inp[i]
-#                         net_inp.append([element_to_int[char] for char in seq_in])
-
-#                     found = False
-#                     while not found: # find sequence with the end token "$" at the end
-#                         start = np.random.randint(0, len(network_input)-1)
-#                         pattern = network_input[start]
-#                         if int_to_element[np.round(pattern[-1])] == "$":
-#                             found = True
-
-#                     net_in = []
-#                     for i in pattern[len(inp):sequence_length]:
-#                         net_in.append(i)
-#                     for j in net_inp:
-#                         net_in.append(j[0])
-
-#                     net_in = np.reshape(net_in, (1, sequence_length))
-
-#                     prediction = model.predict(net_in, verbose=0) # make prediction
-#                     index = np.argmax(prediction)
-#                     result = int_to_element[index]
-
-#                     return result
+                    return result
+                    gc.collect()
                    
-#                 def augment(compound, num_changes): # could enhance the pharmacokinetics and bioactivity of the compound
+                def augment(compound, num_changes): # could enhance the pharmacokinetics and bioactivity of the compound
 
-#                     for word, initial in double_to_single.items(): 
-#                         compound = compound.replace(word, initial) # replace double-letter elements to single-letter for model input
+                    for word, initial in double_to_single.items(): 
+                        compound = compound.replace(word, initial) # replace double-letter elements to single-letter for model input
 
-#                     changes = np.random.randint(1, num_changes+1)
-#                     for i in range(0, changes): # randomly removes certain amount of random elements in SMILES string compound and replaces them with prediction
-#                         ind = np.random.randint(0, len(compound))
-#                         changed = compound[ind]
-#                         new_compound = compound[:ind]
+                    changes = np.random.randint(1, num_changes+1)
+                    for i in range(0, changes): # randomly removes certain amount of random elements in SMILES string compound and replaces them with prediction
+                        ind = np.random.randint(0, len(compound))
+                        changed = compound[ind]
+                        new_compound = compound[:ind]
                         
-#                         result = complete(new_compound)
-#                         if result == "$":
-#                             return compound[:ind] # if an end token is predicted, return the part of the compound up to the changed index
-#                         else:
-#                             compound = compound[:ind] + result + compound[ind+1:] # add the prediction in place of the removed element
+                        result = complete(new_compound)
+                        if result == "$":
+                            return compound[:ind] # if an end token is predicted, return the part of the compound up to the changed index
+                        else:
+                            compound = compound[:ind] + result + compound[ind+1:] # add the prediction in place of the removed element
 
-#                     return compound # return the augmented compound after all the changes have been made 
+                    return compound # return the augmented compound after all the changes have been made 
 
-#                 def augment_repeat(inp, sim, changes, max_try):
+                def augment_repeat(inp, sim, changes, max_try):
 
-#                     if len(inp) > sequence_length:
-#                         inp = inp[:sequence_length]
+                    if len(inp) > sequence_length:
+                        inp = inp[:sequence_length]
 
-#                     tries = 0
-#                     while tries < max_try: # keep trying to make augmented molecules until the model has exceeded the max number of tries (max_try)
+                    tries = 0
+                    while tries < max_try: # keep trying to make augmented molecules until the model has exceeded the max number of tries (max_try)
 
-#                         augmented = augment(inp, changes)
-#                         tries += 1 
-#                         for word, initial in single_to_double.items(): 
-#                             augmented = augmented.replace(word.lower(), initial) # replace single-letter elements back to original double-letter SMILES notation elements
-#                         try:
-#                             if test_molecule(augmented) and augmented != inp and rule_of_five(augmented): # make sure that the molecules are valid and drug-like
-#                                 s = similarity(inp, augmented) # calculate similarity between the original molecule and the augmented molecule
-#                                 if sim < s < 1: # make sure the molecule follows the similarity threshold
-#                                     st.write("augmented", inp, "-->", augmented, "with similarity", s)
-#                                     return augmented
-#                         except:
-#                             continue
+                        augmented = augment(inp, changes)
+                        tries += 1 
+                        for word, initial in single_to_double.items(): 
+                            augmented = augmented.replace(word.lower(), initial) # replace single-letter elements back to original double-letter SMILES notation elements
+                        try:
+                            if test_molecule(augmented) and augmented != inp and rule_of_five(augmented): # make sure that the molecules are valid and drug-like
+                                s = similarity(inp, augmented) # calculate similarity between the original molecule and the augmented molecule
+                                if sim < s < 1: # make sure the molecule follows the similarity threshold
+                                    st.success("augmented", inp, "-->", augmented, "Similarity between Original and New generate SMILES", s)
+                                    return augmented
+                        except:
+                            continue
 
-#                     st.write("could not augment", inp, "within", tries, "tries") 
+                    st.write("could not augment", inp, "within", tries, "tries") 
 
-#                 def aug_list(inp_list, similarity=0.2, max_changes=20, max_tries=100):
+                def aug_list(inp_list, similarity=0.2, max_changes=50, max_tries=1000):
 
-#                     molecules = [augment_repeat(compound.replace('/', "").replace('@', "").replace('\\', "").replace('.', ""), similarity, max_changes, max_tries) for compound in inp_list]
-#                     molecules = list(set(molecules)) # remove duplicates
-#                     molecules = [i for i in molecules if i] 
-#                     return molecules
-
+                    molecules = [augment_repeat(compound.replace('/', "").replace('@', "").replace('\\', "").replace('.', ""), similarity, max_changes, max_tries) for compound in inp_list]
+                    molecules = list(set(molecules)) # remove duplicates
+                    molecules = [i for i in molecules if i] 
+                    return molecules
+                gc.collect()
+       
+                original = str(predict_nsmiles)
+                augmented = aug_list([original])[0]
+                st.write(original) 
+                st.success(augmented)
                 
-
-#                 #encoder.save('final_model.h5')
-#                 # model.load_weights("SMILES-best(2).hdf5")
+                def draw_compound(original):
+                    picori = Chem.MolFromSmiles(original)
+                    weight = Descriptors.MolWt(picori)
+                    return Draw.MolToImage(picori, size=(400,400))
+                picoriginal = draw_compound(original)
                 
-#                 original = str(predict_nsmiles)
-#                 augmented = aug_list([original])
-#                 st.write(original) 
-#                 st.write(augmented) 
-                            
-        # except:
-        #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
-
+                def draw_compound(augmented):
+                    picgen = Chem.MolFromSmiles(augmented)
+                    weight = Descriptors.MolWt(picgen)
+                    return Draw.MolToImage(picgen, size=(400,400))
+                picgenerate = draw_compound(augmented)
+                
+                col1, col2 = st.columns(2)
+                col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
+                col1.image(picoriginal)
+                col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
+                col2.image(picgenerate)
+                
+                gc.collect()           
+        except:
+            st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
 
