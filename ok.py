@@ -371,7 +371,7 @@ if selected =="Check your SMILES molecule":
                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
                 col1.code(prediction3) 
-                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForestClassifier yielded us an accuracy score of: </p>', unsafe_allow_html=True)
+                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForest Regressor yielded us an accuracy score of: </p>', unsafe_allow_html=True)
                 col1.code("0.789")
                 
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
@@ -406,7 +406,7 @@ if selected =="Predict new SMILES molecule":
                 gc.collect()
             else:
                 df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
-                model = load_model('tmpee2tkney.hdf5')
+                model = load_model('model_final.h5')
                 original = predict_nsmiles
                 model3 = joblib.load('pIC50_predictor1.joblib')
                 model4 = joblib.load('active-inactive_predictor3.joblib')
@@ -733,7 +733,7 @@ if selected =="Predict new SMILES molecule":
                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
                 col1.code(prediction302) 
-                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForestClassifier yielded us an accuracy score of: </p>', unsafe_allow_html=True)
+                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForest Regressor yielded us an accuracy score of: </p>', unsafe_allow_html=True)
                 col1.code("0.789")
                 
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
