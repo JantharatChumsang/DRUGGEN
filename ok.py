@@ -96,6 +96,22 @@ if selected =="Home":
     st.write("##")
 
     with st.expander("Dataset"):
+        st.write("Description")
+        st.info(
+                """ 
+                    - Unnamed = Number index.
+                     - molecule_chembl_id = Number id molecule ChEMBL.
+                     - canonical_smiles = The SMILES format is a linear text format which can describe the connectivity and chirality of a molecule.
+                     - mo_class = Classification for value Active/Inactive
+                     - MW = Molecular weight of SMILES molecule.
+                     - LogP = LogP is defined as the partition coefficient of a molecule between aqueous and lipophilic phases usually considered as octanol and water.
+                     - NumHDonors = The number of Hydrogen Bond Donors.
+                     - NumHAcceptors = The number of Hydrogen Bond Acceptors.
+                     - pIC50 = Half-maximal inhibitory concentration (IC50) is the most widely used and informative measure of a drug's efficacy.
+                     - Standard_value = The value of concentration of IC50.
+                     - Max Phase = This refers to the phase a compound has "achieved" in a clinical trial. Phases are typically ordered from 1 to 4.
+                     - approve_class = Classification for splitting Max Phage values are approve/non-approve.
+                     """)
         df1 = pd.read_csv("databi.csv")
         st.write(df1)
 
@@ -612,38 +628,29 @@ if selected =="Predict new SMILES molecule":
                 picgenerate = draw_compound(augmented)
                 gc.collect()
 
+
+                with open('style.css') as f:
+                    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
                 col1, col2 = st.columns(2)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
                 col1.image(picoriginal)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
                 col2.image(picgenerate) 
-
-                def draw_compound(augmented):
-                    pic = Chem.MolFromSmiles(augmented)
-                    weight = Descriptors.MolWt(pic)
-                    return Draw.MolToImage(pic, size=(400,400))
-                picim = draw_compound(augmented)
-
-                t1, t2 = st.columns(2)
-                t1.write('')
-                t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
-                t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
-                # mol = Chem.MolFromSmiles(augmented)
-                # col1.image(mol)
-                t1.image(picim)
                 
             
                 def analyze_compound(augmented):
                     m = Chem.MolFromSmiles(augmented)
-                    t2.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
-                    t2.code(Descriptors.MolWt(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
-                    t2.code(Descriptors.MolLogP(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
-                    t2.code(Lipinski.NumHDonors(m))
-                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
-                    t2.code(Lipinski.NumHAcceptors(m))
+                    st.write('<p class="font-family: Poppins, sans-serif;">Your new SMILES Predict👇</p>', unsafe_allow_html=True)
+                    st.code(augmented)
+                    st.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
+                    st.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
+                    st.code(Descriptors.MolWt(m))
+                    st.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
+                    st.code(Descriptors.MolLogP(m))
+                    st.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
+                    st.code(Lipinski.NumHDonors(m))
+                    st.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
+                    st.code(Lipinski.NumHAcceptors(m))
 
                     if Descriptors.MolWt(m) <= np.array(500): 
                         if Descriptors.MolLogP(m) <= np.array(5):
@@ -664,7 +671,7 @@ if selected =="Predict new SMILES molecule":
                         str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
                         return str
                
-                t2.warning(analyze_compound(augmented))
+                st.warning(analyze_compound(augmented))
             
 
                 def prediction_pIC50(augmented):
@@ -721,7 +728,6 @@ if selected =="Predict new SMILES molecule":
 
                 with open('style.css') as f:
                     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-
                 col1, col2, col3 = st.columns(3)
                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
