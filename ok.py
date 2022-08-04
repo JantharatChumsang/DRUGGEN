@@ -1,6 +1,3 @@
-# from email.policy import default
-# from tkinter import CENTER
-# import Tkinter as tk
 from attr import s
 import streamlit as st 
 from streamlit_option_menu import option_menu
@@ -8,7 +5,6 @@ from streamlit_lottie import st_lottie
 import streamlit.components.v1 as stc
 
 import codecs
-# import pickle
 import joblib
 import imblearn
 import requests
@@ -21,32 +17,19 @@ import pandas as pd
 import numpy as np
 import gc
 
-# import seaborn as sn
-# import matplotlib.pyplot as plt
-# from statistics import mean, stdev
-
 #------------------------------------------------#
 
 from rdkit.Chem import Descriptors, Lipinski,Draw
-# from rdkit.Chem import Draw
 from rdkit.ML.Descriptors import MoleculeDescriptors
 from rdkit.Chem import AllChem
 from rdkit import Chem
 from rdkit.Avalon import pyAvalonTools
 from rdkit import Chem, DataStructs
 from rdkit.Chem.Lipinski import RotatableBondSmarts
-# from rdkit.Chem.Draw import SimilarityMaps, IPythonConsole
-# from rdkit.Chem.Draw import rdMolDraw2D
 from chembl_webresource_client.new_client import new_client
-# from pikachu.general import draw_smiles
 from rdkit import rdBase
 rdBase.DisableLog('rdApp.error')
 
-# import os
-# from os import path
-# import zipfile
-# import glob
-# import random
 import keras
 from keras.utils import np_utils
 from keras.models import load_model
@@ -56,6 +39,9 @@ from tensorflow.keras.models import Model
 from tensorflow.keras import layers
 from tensorflow.keras import initializers
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+
+from urllib.request import urlopen
+from urllib.parse import quote
 
 #--------------------------------------------------------------------------------------------------------#
 #start#
@@ -109,49 +95,40 @@ if selected =="Home":
     # ---- LOAD ASSETS ----
     st.write("##")
 
-    # lottie_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
-    # st_lottie(lottie_coding, height=450, key="coding")
     with st.expander("Dataset"):
         df1 = pd.read_csv("databi.csv")
         st.write(df1)
-            
 
-    # with st.expander("Power BI"):
-    # t1,t2 = st.columns((0.15,1))
-    # t1.image('images/qrcode_app.powerbi.com.png', width = 175)
     st_webpage('powerBI.html')
       
 #-------------------------------------------------------#
 if selected =="About us":
     with st.container():
-        st.title("About us 👥")
-        Welcome_title = '<p style="text-align:left; font-family: Raleway, sans-serif; color:#06BBCC; font-size: 20px; ">  Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
+        st.header("About us 👥")
+        Welcome_title = '<p style="text-align:left; font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; ">  Web applications for Breast Cancer Novel Drug Discovery Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
         st.markdown(Welcome_title, unsafe_allow_html=True)
-        st.image('images/chem.png', width = 90)
-        st.write("website: https://www.ebi.ac.uk/chembl/")
-
+        st.write('This is the introduction of a drug molecule from an old SMILES molecule into a new one from the `eight target protein targets mTOR, HER2, aromatase, CDK4/6, Trop-2, Estrogen Receptor, PI3K and Akt` of breast cancer. To researchers or individuals who wish to discover drugs or produce drugs in the drug discovery process to explore the possibilities of molecules before studying further research into the production of future drugs.')
+        t1, t2 = st.columns((0.08,1)) 
+        t1.image('images/chem.png', width = 90)
+        t2.markdown("https://www.ebi.ac.uk/chembl/")
+        
     with st.container():
         st.write("---")
         st.header("Goal of the projects")
-        """
-        ```
-        The user will bring the SMILES molecule. Come to check the Lipinski principle in drug making, see pIC50, active/inactive values, approve/nonapprove values. 
+        st.success("""The user will bring the SMILES molecule. Come to check the Lipinski principle in drug making, see pIC50, active/inactive values, approve/nonapprove values. 
         of SMILES molecules and a new line of SMILES molecule genrates to further develop drug development in the future.
-        ```
-        """
-        st.info('This is the introduction of a drug molecule from an old SMILES molecule into a new one from the eight target protein targets mTOR, HER2, aromatase, CDK4/6, Trop-2, Estrogen Receptor, PI3K and Akt of breast cancer. To researchers or individuals who wish to discover drugs or produce drugs in the drug discovery process to explore the possibilities of molecules before studying further research into the production of future drugs.')
-        
+        """)
         left_column, right_column = st.columns(2)
         with left_column:
             st.write("##")
-            Ideal_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Simplified Molecular Input Line Entry System(SMILES).</p>'
+            Ideal_title = '<p style="font-family:; color:#06BBCC; font-size: 20px; "> 🧬 Simplified Molecular Input Line Entry System(SMILES).</p>'
             st.markdown(Ideal_title, unsafe_allow_html=True)
             st.info(
                 """ 
                 - SMILES (Simplified Molecular Input Line Entry System) is a chemical notation that allows a user to represent a chemical structure in a way that can be used by the computer. SMILES is an easily learned and flexible notation.
              """)
             st.write("##")
-            Reality_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size:20px; "> 🧬 Active/Inactive.</p>'
+            Reality_title = '<p style="font-family:; color:#06BBCC; font-size:20px; "> 🧬 Active/Inactive.</p>'
             st.markdown(Reality_title, unsafe_allow_html=True)
             st.info(
                 """ 
@@ -163,13 +140,11 @@ if selected =="About us":
             st.write("##")
             st.write("##")
             st.write("##")
-            st.write("##")
-            st.write("##")
             
             lottie2_coding = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_nw19osms.json")
             st_lottie(lottie2_coding, height=400,  key="coding")
         
-        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
+        Consequences_title = '<p style="font-family:; color:#06BBCC; font-size: 20px; "> 🧬 Approve/Non-approve.</p>'
         st.markdown(Consequences_title, unsafe_allow_html=True)
         st.info(
                 """ 
@@ -180,7 +155,7 @@ if selected =="About us":
                 - Phage4 Approve: The compound has been approved in at least one country or area.""")
             
         st.write("##")
-        Consequences_title = '<p style="font-family: Poppins, sans-serif; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five.</p>'
+        Consequences_title = '<p style="font-family:; color:#06BBCC; font-size: 20px; "> 🧬 Lipinski rule of five.</p>'
         st.markdown(Consequences_title, unsafe_allow_html=True)
         st.info(
                 """ 
@@ -234,9 +209,32 @@ if selected =="About us":
 if selected =="Check your SMILES molecule":
     st.title(f"Check your SMILES molecule")
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    
-       
-    canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
+    drug_name = st.text_input("1.Enter your Drug Name")
+    if st.button("Check your SMILES Drug"):
+        try:
+            if drug_name==" ":
+                st.write(f"Don't have your Drug Name")
+            else:
+
+                def CIRconvert(ids):
+                    try:
+                        url = 'http://cactus.nci.nih.gov/chemical/structure/' + quote(ids) + '/smiles'
+                        ans = urlopen(url).read().decode('utf8')
+                        return ans
+                    except:
+                        return 'Did found your drug name in National Cancer Institute(NCI)❌'
+                
+                nameD = drug_name
+                # Split string into words
+                identifiers = nameD.split(" ")
+                for ids in identifiers :
+                    print(ids, CIRconvert(ids))
+                st.success(CIRconvert(ids))
+        except:
+            st.error(f"Your drug name Did found in National Cancer Institute(NCI) ❌")
+                
+
+    canonical_smiles = st.text_input("2.Enter your SMILES molecules string")  
 
     if st.button("Predict"):
         try:
@@ -340,13 +338,13 @@ if selected =="Check your SMILES molecule":
                 
                 prediction4 = model4.predict(my_array)
                 prediction4_2 = ' '.join(map(str, prediction4))
-                
+                predictionprob4 = model4.predict_proba(my_array)
+                predictionprob44 = ' '.join(map(str, predictionprob4[:,-1]))
+
                 prediction5 = model5.predict(my_array)
                 prediction5_2 = ' '.join(map(str, prediction5))
-                st.write(prediction5)
-                
-                
-
+                predictionprob5 = model5.predict_proba(my_array)
+                predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
                 gc.collect()
 
 
@@ -357,17 +355,20 @@ if selected =="Check your SMILES molecule":
                 col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
                 col1.code(prediction3) 
-                col1.code("Accuracy: 0.789")
+                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForestClassifier yielded us an accuracy score of: </p>', unsafe_allow_html=True)
+                col1.code("0.789")
                 
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
                 col2.code(prediction4_2)
-                col2.code('Accuracy: 0.808')
+                col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive</p>', unsafe_allow_html=True)
+                col2.code(predictionprob44)
 
                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
                 col3.code(prediction5_2)
-                col3.code('Accuracy: 0.669')
+                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
+                col3.code(predictionprob55)
                 gc.collect()
         except:
              st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
@@ -382,7 +383,7 @@ if selected =="Predict new SMILES molecule":
     gc.collect()
 
     if st.button("Predict"):
-        # try:
+        try:
             if predict_nsmiles=="" :
                 st.write(f"Don't have SMILES molecules")
                 gc.collect()
@@ -390,6 +391,9 @@ if selected =="Predict new SMILES molecule":
                 df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
                 model = load_model('tmpee2tkney.hdf5')
                 original = predict_nsmiles
+                model3 = joblib.load('pIC50_predictor1.joblib')
+                model4 = joblib.load('active-inactive_predictor3.joblib')
+                model5 = joblib.load('BalancedRandomForestClassifier_model6.joblib')
 
                 # double letters for one element turned into single letters that are not in the dataset
                 double_to_single = {'Si':'q', 'Se':'w', 'Cn':'t', 'Sc':'y', 'Cl':'u', 'Sn':'z', 'Br':'x'} 
@@ -612,8 +616,134 @@ if selected =="Predict new SMILES molecule":
                 col1.write('<p class="font-family: Poppins, sans-serif;">Image Original SMILES Molecules 👇</p>', unsafe_allow_html=True)
                 col1.image(picoriginal)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Image Generate new SMILES Molecules 👇</p>', unsafe_allow_html=True)
-                col2.image(picgenerate)          
-        # except:
-        #      st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
+                col2.image(picgenerate) 
+
+                def draw_compound(augmented):
+                    pic = Chem.MolFromSmiles(augmented)
+                    weight = Descriptors.MolWt(pic)
+                    return Draw.MolToImage(pic, size=(400,400))
+                picim = draw_compound(augmented)
+
+                t1, t2 = st.columns(2)
+                t1.write('')
+                t1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                t1.write('<p class="font-family: Poppins, sans-serif;">This is your smile molecule image</p>', unsafe_allow_html=True)
+                # mol = Chem.MolFromSmiles(augmented)
+                # col1.image(mol)
+                t1.image(picim)
+                
+            
+                def analyze_compound(augmented):
+                    m = Chem.MolFromSmiles(augmented)
+                    t2.success("The Lipinski's Rule stated the following: Molecular weight < 500 Dalton, Octanol-water partition coefficient (LogP) < 5, Hydrogen bond donors < 5, Hydrogen bond acceptors < 10 ")
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Molecule Weight: A molecular mass less than 500 daltons </p>', unsafe_allow_html=True)
+                    t2.code(Descriptors.MolWt(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">LogP: An octanol-water partition coefficient (log P) that does not exceed 5</p>', unsafe_allow_html=True)
+                    t2.code(Descriptors.MolLogP(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond donors: No more than 5 hydrogen bond donors (the total number of nitrogen–hydrogen and oxygen–hydrogen bonds)</p>', unsafe_allow_html=True)
+                    t2.code(Lipinski.NumHDonors(m))
+                    t2.write('<p class="font-family: Poppins, sans-serif;">Hydrogen bond acceptors: No more than 10 hydrogen bond acceptors (all nitrogen or oxygen atoms)</p>', unsafe_allow_html=True)
+                    t2.code(Lipinski.NumHAcceptors(m))
+
+                    if Descriptors.MolWt(m) <= np.array(500): 
+                        if Descriptors.MolLogP(m) <= np.array(5):
+                            if Lipinski.NumHDonors(m) <= np.array(5):
+                                if Lipinski.NumHAcceptors(m) <= np.array(10):
+                                    str = "your smile is well ✔️"
+                                    return str
+                                else:
+                                    str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                                    return str
+                            else:
+                                str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                                return str
+                        else:
+                            str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                            return str
+                    else:
+                        str = "Warning!! your SMILES molecule don't pass Lipinski's Rule ❌"
+                        return str
+               
+                t2.warning(analyze_compound(augmented))
+            
+
+                def prediction_pIC50(augmented):
+                    test_morgan_fps = []
+                    mol = Chem.MolFromSmiles(augmented) 
+                    info = {}
+                    temp = AllChem.GetMorganFingerprintAsBitVect(mol,2,2048,bitInfo=info)
+                    test_morgan_fps.append(temp)
+                    prediction = model3.predict(test_morgan_fps)
+                    return prediction
+
+
+                def get_h_bond_donors(mol):
+                    idx = 0
+                    donors = 0
+                    while idx < len(mol)-1:
+                        if mol[idx].lower() == "o" or mol[idx].lower() == "n":
+                            if mol[idx+1].lower() == "h":
+                                donors+=1
+                        idx+=1
+                    return donors
+                def get_h_bond_acceptors(mol):
+                    acceptors = 0
+                    for i in mol:
+                        if i.lower() == "n" or i.lower() == "o":
+                            acceptors+=1
+                    return acceptors
+
+                m = Chem.MolFromSmiles(augmented)
+                MW = Descriptors.MolWt(m)
+                NA = m.GetNumAtoms()
+                LP =  Descriptors.MolLogP(m)
+                SA =  Descriptors.TPSA(m)
+                mdataf = {'Molecule Weight': MW , 'ALogP': LP , 'HBD' : NA , 'HBA': SA}
+                dfm  = pd.DataFrame([mdataf])
+                my_array = np.array(dfm)
+
+  
+                predict_pIC502 = prediction_pIC50(augmented)
+                prediction302 = ' '.join(map(str, predict_pIC502))
+               
+                
+                prediction402 = model4.predict(my_array)
+                prediction4_21 = ' '.join(map(str, prediction402))
+                predictionprob402 = model4.predict_proba(my_array)
+                predictionprob442 = ' '.join(map(str, predictionprob402[:,-1]))
+
+                prediction5 = model5.predict(my_array)
+                prediction5_21 = ' '.join(map(str, prediction5))
+                predictionprob502 = model5.predict_proba(my_array)
+                predictionprob552 = ' '.join(map(str, predictionprob502[:,1]))
+                gc.collect()
+
+
+                with open('style.css') as f:
+                    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+                col1, col2, col3 = st.columns(3)
+                col1.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col1.write('<p class="font-family: Poppins, sans-serif;">Predicted your pIC50 from SMILES molecule 👇</p>', unsafe_allow_html=True)
+                col1.code(prediction302) 
+                col1.write('<p class="font-family: Poppins, sans-serif;">RandomForestClassifier yielded us an accuracy score of: </p>', unsafe_allow_html=True)
+                col1.code("0.789")
+                
+                col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
+                col2.code(prediction4_21)
+                col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive</p>', unsafe_allow_html=True)
+                col2.code(predictionprob442)
+
+                col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
+                col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
+                col3.code(prediction5_21)
+                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
+                col3.code(predictionprob552)
+                gc.collect()
+                
+                         
+        except:
+             st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
 
 
