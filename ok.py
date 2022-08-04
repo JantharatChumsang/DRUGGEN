@@ -225,32 +225,8 @@ if selected =="About us":
 if selected =="Check your SMILES molecule":
     st.title(f"Check your SMILES molecule")
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    drug_name = st.text_input("1.Enter your Drug Name")
-    if st.button("Check your SMILES Drug"):
-        try:
-            if drug_name==" ":
-                st.write(f"Don't have your Drug Name")
-            else:
-
-                def CIRconvert(ids):
-                    try:
-                        url = 'http://cactus.nci.nih.gov/chemical/structure/' + quote(ids) + '/smiles'
-                        ans = urlopen(url).read().decode('utf8')
-                        return ans
-                    except:
-                        return 'Did found your drug name in National Cancer Institute(NCI)❌'
-                
-                nameD = drug_name
-                # Split string into words
-                identifiers = nameD.split(" ")
-                for ids in identifiers :
-                    print(ids, CIRconvert(ids))
-                st.success(CIRconvert(ids))
-        except:
-            st.error(f"Your drug name Did found in National Cancer Institute(NCI) ❌")
-                
-
-    canonical_smiles = st.text_input("2.Enter your SMILES molecules string")  
+    
+    canonical_smiles = st.text_input("1.Enter your SMILES molecules string")  
 
     if st.button("Predict"):
         try:
