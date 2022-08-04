@@ -51,7 +51,7 @@ t1, t2 = st.columns((0.15,1))
 t1.image('images/index4.png', width = 170)
 web_title = '<p style="text-align:; color:#3D0E04; font-size: 22px;">Web applications for Breast Cancer Novel Drug Discovery \n Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
 t2.markdown(web_title, unsafe_allow_html=True)
-web2_title = '<p style="text-align:; color:#3D0E04; font-size: 18px;">การพัฒนาเว็บแอพพลิเคชั่นสำหรับการค้นคว้ายาใหม่สำหรับมะเร็งเต้านมด้วยฐานข้อมูล</p>'
+web2_title = '<p style="text-align:; color:#3D0E04; font-size: 18px;">การพัฒนาเว็บแอพพลิเคชั่นสำหรับการค้นคว้ายาใหม่ของมะเร็งเต้านมด้วยฐานข้อมูล ChEMBL</p>'
 t2.markdown(web2_title, unsafe_allow_html=True)
 
 ### tab bar ####
@@ -330,13 +330,9 @@ if selected =="Check your SMILES molecule":
                 
                 prediction4 = model4.predict(my_array)
                 prediction4_2 = ' '.join(map(str, prediction4))
-                predictionprob4 = model4.predict_proba(my_array)
-                predictionprob44 = ' '.join(map(str, predictionprob4[:,-1]))
 
                 prediction5 = model5.predict(my_array)
                 prediction5_2 = ' '.join(map(str, prediction5))
-                predictionprob5 = model5.predict_proba(my_array)
-                predictionprob55 = ' '.join(map(str, predictionprob5[:,1]))
                 gc.collect()
 
 
@@ -353,14 +349,14 @@ if selected =="Check your SMILES molecule":
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
                 col2.code(prediction4_2)
-                col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive</p>', unsafe_allow_html=True)
-                col2.code(predictionprob44)
+                col2.write('<p class="font-family: Poppins, sans-serif;">AutoSklearnClassifier yielded us an accuracy score of:</p>', unsafe_allow_html=True)
+                col2.code("0.808")
 
                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
                 col3.code(prediction5_2)
-                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
-                col3.code(predictionprob55)
+                col3.write('<p class="font-family: Poppins, sans-serif;">RandomForest Classifier yielded us an accuracy score of:</p>', unsafe_allow_html=True)
+                col3.code("0.69")
                 gc.collect()
         except:
              st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
@@ -382,7 +378,7 @@ if selected =="Predict new SMILES molecule":
                 gc.collect()
             else:
                 df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
-                model = load_model('model_final.h5')
+                model = load_model('tmpee2tkney.hdf5')
                 original = predict_nsmiles
                 model3 = joblib.load('pIC50_predictor1.joblib')
                 model4 = joblib.load('active-inactive_predictor3.joblib')
@@ -715,18 +711,17 @@ if selected =="Predict new SMILES molecule":
                 col2.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col2.write('<p class="font-family: Poppins, sans-serif;">Predicted your active/inactive Drug 👇</p>', unsafe_allow_html=True)
                 col2.code(prediction4_21)
-                col2.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your active/inactive</p>', unsafe_allow_html=True)
-                col2.code(predictionprob442)
+                col2.write('<p class="font-family: Poppins, sans-serif;">AutoSklearnClassifier yielded us an accuracy score of:</p>', unsafe_allow_html=True)
+                col2.code("0.808")
 
                 col3.write("""<style>.font-family: Poppins, sans-serif; {font-size:15px !important;}</style>""", unsafe_allow_html=True)
                 col3.write('<p class="font-family: Poppins, sans-serif;">Predicted your approve/non-approve Drug👇</p>', unsafe_allow_html=True)
                 col3.code(prediction5_21)
-                col3.write('<p class="font-family: Poppins, sans-serif;">Probability value predicted your approve/non-approve Drug</p>', unsafe_allow_html=True)
-                col3.code(predictionprob552)
+                col3.write('<p class="font-family: Poppins, sans-serif;">RandomForest Classifier yielded us an accuracy score of:</p>', unsafe_allow_html=True)
+                col3.code("0.69")
                 gc.collect()
                 
                          
         except:
              st.error(f"Your SMILES does not meet the principles of the Lipinski Rules!! ❌")
-
 
