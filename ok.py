@@ -395,7 +395,7 @@ if selected =="Predict new SMILES molecule":
     st.markdown(Welcome_title, unsafe_allow_html=True)
     st.title(f"Predict your new SMILES molecule")
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    st.warning(""" Please wait about 2-10 minute server predicting generation!!⏱  """)
+    st.warning("""Please wait about 2-10 minute server predicting generation!!⏱""")
     predict_nsmiles = st.text_input("1.Enter your SMILES molecules string")
     gc.collect()
 
@@ -406,7 +406,7 @@ if selected =="Predict new SMILES molecule":
                 gc.collect()
             else:
                 df = pd.read_csv("pharmaceuticAI_all_compounds.smiles")
-                model = load_model('model_final.h5')
+                model = load_model('tmpee2tkney.hdf5')
                 original = predict_nsmiles
                 model3 = joblib.load('pIC50_predictor1.joblib')
                 model4 = joblib.load('active-inactive_predictor3.joblib')
