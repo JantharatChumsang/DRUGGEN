@@ -395,7 +395,7 @@ if selected =="Predict new SMILES molecule":
     st.markdown(Welcome_title, unsafe_allow_html=True)
     st.title(f"Predict your new SMILES molecule")
     st.write(""" SMILES = Simplified Molecular Input Line Entry Specification """)
-    st.warning(""" Please wait about 2-10 minute server predicting generation  """)
+    st.warning(""" Please wait about 2-10 minute server predicting generation!!⏱  """)
     predict_nsmiles = st.text_input("1.Enter your SMILES molecules string")
     gc.collect()
 
