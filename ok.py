@@ -48,11 +48,11 @@ from urllib.parse import quote
 st.set_page_config(page_title='Drug Discovery - Handover Delays',  layout='wide', page_icon=':pill:')
 
 t1, t2 = st.columns((0.15,1)) 
-t1.image('images/index4.png', width = 170)
-web_title = '<p style="text-align:; color:#3D0E04; font-size: 22px;">Web applications for Breast Cancer Novel Drug Discovery \n Using the ChEMBL Database and Deep Learning approach ChEMBL</p>'
+t1.image('images/index6.png', width = 170)
+web_title = '<p style="text-align:; color:#3D0E04; font-size: 22px;">Developing a Web Application for Virtual Screening of Breast Cancer Drugs and Predicting of Drug-Target Interaction and Drug Approvals using Machine Learning</p>'
 t2.markdown(web_title, unsafe_allow_html=True)
-web2_title = '<p style="text-align:; color:#3D0E04; font-size: 18px;">การพัฒนาเว็บแอพพลิเคชั่นสำหรับการค้นคว้ายาใหม่ของมะเร็งเต้านมด้วยฐานข้อมูล ChEMBL</p>'
-t2.markdown(web2_title, unsafe_allow_html=True)
+# web2_title = '<p style="text-align:; color:#3D0E04; font-size: 18px;">การพัฒนาเว็บแอพพลิเคชั่นสำหรับการค้นคว้ายาใหม่ของมะเร็งเต้านมด้วยฐานข้อมูล ChEMBL</p>'
+# t2.markdown(web2_title, unsafe_allow_html=True)
 
 ### tab bar ####
 selected = option_menu(
