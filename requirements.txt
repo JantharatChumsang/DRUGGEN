@@ -15,4 +15,4 @@ tensorflow==2.9.0
 tensorflow-estimator==2.9.0
 tensorflow-gpu==2.9.0
 tensorflow-gpu-estimator==2.3.0
-
+protobuf==3.20.*
